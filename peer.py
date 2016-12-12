@@ -39,7 +39,7 @@ if not os.path.exists(path):
 else:
     print('Exists {}'.format(path))
 
-files = []  # [[filename1, last_modified1], [filename2, last_modified2],...]
+my_files = []  # [[filename1, last_modified1], [filename2, last_modified2],...]
 number_of_peers = 1  # number of other machine in network
 
 threads = []
@@ -50,14 +50,14 @@ request_port = None
 
 
 def load_files():
-    global files
-    files = []
+    global my_files
+    my_files = []
     file_names = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and not f.startswith('.')]
 
     for fn in file_names:
         f = os.path.join(path, fn)
         last_modified = os.path.getmtime(f)
-        files.append([fn, last_modified])
+        my_files.append([fn, last_modified])
 
 
 def check_last_modified(file, file_list):
@@ -75,14 +75,14 @@ def compare_with(peer_files):
     for f in peer_files:
         p_file_name_list.append(f[0])
 
-    for f in files:
+    for f in my_files:
         my_file_name_list.append(f[0])
 
     for f in peer_files:
-        if f[0] not in my_file_name_list or check_last_modified(f, files):
+        if f[0] not in my_file_name_list or check_last_modified(f, my_files):
             need_upd_files.append(f)
 
-    for f in files:
+    for f in my_files:
         if f[0] not in p_file_name_list or check_last_modified(f, peer_files):
             p_need_upd_files.append(f)
 
@@ -114,10 +114,13 @@ def p2p_in_thread(conn, addr):
                 break
             elif data[0] == 'GET':
                 load_files()
-                conn.send(pickle.dumps(make_message('POST', files)))
+                conn.send(pickle.dumps(make_message('POST', my_files)))
             elif data[0] == 'POST':
                 peer_files = data[1]
                 load_files()
+
+                print(peer_files)
+                print(my_files)
 
                 # get list of files need update from peer, and to peer
                 my_need_update_files, p_need_update_files = compare_with(peer_files)
@@ -167,7 +170,7 @@ def request_thread():
         load_files()
         print('> Load file done!')
 
-        request_socket.send(pickle.dumps(make_message('POST', files)))  # send to peer list of file and last modified
+        request_socket.send(pickle.dumps(make_message('POST', my_files)))  # send to peer list of file and last modified
         try:
             data = pickle.loads(request_socket.recv(8096))  # ['POST', need_update_files, p_need_upd_files]
             my_need_update_files = data[1][1]
@@ -183,7 +186,7 @@ def request_thread():
                         with open(os.path.join(path, file[0])) as txt:
                             data = txt.read()
                             request_socket.send(pickle.dumps(data))
-                            print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getsockname()))
+                            print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getpeername()))
                             confirm = request_socket.recv(1024)
                             print(confirm.decode())
                             del data
@@ -191,7 +194,7 @@ def request_thread():
             if my_need_update_files:
                 for fn in my_need_update_files:
                     d = pickle.loads(request_socket.recv(8096))
-                    print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getsockname()))
+                    print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getpeername()))
                     update_file(fn, d)
                     request_socket.send(bytes('DONE', 'utf-8'))
             time.sleep(5)
