@@ -169,9 +169,9 @@ def listener_thread():
 
 def request_thread():
     while True:
-        print('> Load file')
+        # print('> Load file')
         load_files()
-        print('> Load file done!')
+        # print('> Load file done!')
 
         request_socket.send(pickle.dumps(my_files))  # send to peer list of file and last modified
         try:
@@ -180,7 +180,7 @@ def request_thread():
             p_need_update_files = data[0]
 
             if not my_need_update_files and not p_need_update_files:
-                print('> Nothing to do, wait for the next change in folder...')
+                # print('> Nothing to do, wait for the next change in folder...')
                 time.sleep(10)
                 continue
 
@@ -189,7 +189,7 @@ def request_thread():
                         with open(os.path.join(path, file[0])) as txt:
                             data = txt.read()
                             request_socket.send(pickle.dumps(data))
-                            print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getpeername()))
+                            # print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getpeername()))
                             confirm = request_socket.recv(1024)
                             print(confirm.decode())
                             del data
@@ -197,10 +197,10 @@ def request_thread():
             if my_need_update_files:
                 for fn in my_need_update_files:
                     d = pickle.loads(request_socket.recv(809600000))
-                    print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getpeername()))
+                    # print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getpeername()))
                     update_file(fn, d)
                     request_socket.send(bytes('DONE', 'utf-8'))
-            time.sleep(5)
+            # time.sleep(5)
         except EOFError as err:
             print(err)
             break
