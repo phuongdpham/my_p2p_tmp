@@ -4,6 +4,7 @@ import threading
 import os
 import platform
 import time
+from multiprocessing.connection import Listener, Client
 
 lock = threading.RLock()
 
@@ -45,8 +46,8 @@ my_files = []  # [[filename1, last_modified1], [filename2, last_modified2],...]
 number_of_peers = 1  # number of other machine in network
 
 threads = []
-listener_socket = socket.socket()
-request_socket = socket.socket()
+listener_socket = None  # socket.socket()
+request_socket = None  # socket.socket()
 listener_port = None
 request_port = None
 
@@ -112,12 +113,13 @@ def make_message(operator, operand):
 
 
 def p2p_in_thread(conn, addr):
-    conn.send(bytes('Thank you for connecting', 'utf-8'))  # say thank
+    conn.send('Thank you for connecting')  # say thank
 
     while True:
         try:
-            unpickle_data = conn.recv(809600000)    # wait for receive file list from peer
-            data = pickle.loads(unpickle_data)
+            # unpickle_data = conn.recv(809600000)    # wait for receive file list from peer
+            # data = pickle.loads(unpickle_data)
+            data = conn.recv()
             # print('/> Received list of file from peer ', addr)
             peer_files = data
             load_files()
@@ -129,22 +131,25 @@ def p2p_in_thread(conn, addr):
             my_need_update_files, p_need_update_files = compare_with(peer_files)
 
             # send request list of files need update to peer
-            conn.send(pickle.dumps([my_need_update_files, p_need_update_files]))
+            # conn.send(pickle.dumps([my_need_update_files, p_need_update_files]))
+            conn.send([my_need_update_files, p_need_update_files])
 
             if my_need_update_files:
                 for my_fn in my_need_update_files:
-                    d = pickle.loads(conn.recv(809600000))
+                    # d = pickle.loads(conn.recv(809600000))
+                    d = conn.recv()
                     # print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
                     update_file(my_fn, d)  # improve performance by thread later
-                    conn.send(bytes('DONE', 'utf-8'))
+                    conn.send('DONE')
 
             if p_need_update_files:
                 for fn in p_need_update_files:
                         with open(os.path.join(path, fn[0])) as txt:
                             d = txt.read()
-                            conn.send(pickle.dumps(d))
+                            # conn.send(pickle.dumps(d))
+                            conn.send(d)
                             # print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
-                            confirm = conn.recv(1024)
+                            confirm = conn.recv()
                             # print(confirm.decode())
                             del d
         except EOFError as err:
@@ -157,11 +162,11 @@ def p2p_in_thread(conn, addr):
 
 
 def listener_thread():
-    listener_socket.listen(number_of_peers)
+    # listener_socket.listen(number_of_peers)
     while True:
-        c, addr = listener_socket.accept()
-        print('Got: ', addr)
-        t_c = threading.Thread(target=p2p_in_thread, args=(c, addr))
+        c = listener_socket.accept()
+        print('Got connection')
+        t_c = threading.Thread(target=p2p_in_thread, args=(c, c))
         t_c.start()
         t_c.join()
         threads.append(t_c)
@@ -173,9 +178,11 @@ def request_thread():
         load_files()
         # print('> Load file done!')
 
-        request_socket.sendall(pickle.dumps(my_files))  # send to peer list of file and last modified
+        # request_socket.sendall(pickle.dumps(my_files))  # send to peer list of file and last modified
+        request_socket.send(my_files)
         try:
-            data = pickle.loads(request_socket.recv(809600000))  # [need_update_files, p_need_upd_files]
+            # data = pickle.loads(request_socket.recv(809600000))  # [need_update_files, p_need_upd_files]
+            data = request_socket.recv()
             my_need_update_files = data[1]
             p_need_update_files = data[0]
 
@@ -188,19 +195,21 @@ def request_thread():
                 for file in p_need_update_files:
                         with open(os.path.join(path, file[0])) as txt:
                             data = txt.read()
-                            request_socket.sendall(pickle.dumps(data))
+                            # request_socket.sendall(pickle.dumps(data))
+                            request_socket.send(data)
                             # print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getpeername()))
-                            confirm = request_socket.recv(1024)
+                            confirm = request_socket.recv()
                             # print(confirm.decode())
                             del data
 
             if my_need_update_files:
                 for fn in my_need_update_files:
-                    d = pickle.loads(request_socket.recv(809600000))
+                    # d = pickle.loads(request_socket.recv(809600000))
+                    d = request_socket.recv()
                     # print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getpeername()))
                     update_file(fn, d)
-                    request_socket.send(bytes('DONE', 'utf-8'))
-            # time.sleep(5)
+                    request_socket.send('DONE')
+            time.sleep(5)
         except EOFError as err:
             print(err)
             break
@@ -214,7 +223,7 @@ def request_thread():
 
 
 def get_user_input():
-    global listener_socket, host, ports
+    global listener_socket, request_socket, host, ports
 
     # Set up listener thread
     while True:
@@ -229,7 +238,8 @@ def get_user_input():
         print('Claim your port to listen: ', ports)
         my_port = eval(input('Your choice: '))
         try:
-            listener_socket.bind((host, my_port))
+            # listener_socket.bind((host, my_port))
+            listener_socket = Listener((host, my_port))
             print('Set up listener successfully!')
             break
         except OSError:
@@ -250,9 +260,10 @@ def get_user_input():
             # assume inputs are valid
             try:
                 socket.inet_aton(target_host)
-                request_socket.connect((target_host, target_port))
-                message = request_socket.recv(1024)  # thank you for connecting
-                print(message.decode('utf-8'))
+                # request_socket.connect((target_host, target_port))
+                request_socket = Client((target_host, target_port))
+                message = request_socket.recv()  # thank you for connecting
+                print(message)
                 break
             except socket.error as err:
                 print(err)

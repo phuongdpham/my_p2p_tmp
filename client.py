@@ -1,26 +1,41 @@
 import socket
 import time
-from multiprocessing.connection import Listener
+import multiprocessing.connection
+
+import os
+
+homedir = os.path.expanduser('~')
+path = homedir + '/test/'
+
+files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]  # and not f.startswith('.')]
 
 host = socket.gethostname()
 port = 7777
 
-sock = socket.socket()
-sock.connect((host, port))
+# sock = socket.socket()
+# sock.connect((host, port))
+
+client = multiprocessing.connection.Client((host, port))
+
+mess = client.recv()
+print(mess)
 
 
 while True:
     print('waiting...')
     try:
-        data = sock.recv(1024)
+        client.send(files)
+        data = client.recv()
 
-        print(data.decode())
-        print(sock.getpeername(), sock.getsockname()[1])
-    except OSError or EOFError:
+        print(data)
+        # print(client)
+    except EOFError as err:
+        break
+    except OSError:
         print('Disconnected')
         break
     except TimeoutError as err:
         print(err)
         break
 
-sock.close()
+client.close()
