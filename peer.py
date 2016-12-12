@@ -1,5 +1,4 @@
 import socket
-import pickle
 import threading
 import os
 import platform
@@ -15,6 +14,7 @@ port3 = 7777  # port number between machine 2 and 3
 ports = [port1, port2, port3]
 host = ''
 
+# This block just for Linux
 # gw = os.popen("ip -4 route show default").read().split()
 # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # s.connect((gw[2], 0))
@@ -46,8 +46,8 @@ my_files = []  # [[filename1, last_modified1], [filename2, last_modified2],...]
 number_of_peers = 1  # number of other machine in network
 
 threads = []
-listener_socket = None  # socket.socket()
-request_socket = None  # socket.socket()
+listener_socket = None
+request_socket = None
 listener_port = None
 request_port = None
 
@@ -60,7 +60,6 @@ def load_files():
 
     for fn in file_names:
         f = os.path.join(path, fn)
-        # stat_info = os.stat(f)
         last_modified = round(os.path.getmtime(f), 0)  # os.path.getmtime(fn)
         my_files.append([fn, last_modified])
 
@@ -98,10 +97,8 @@ def update_file(f, data):
     lock.acquire()
     try:
         fn = os.path.join(path, f[0])
-        # fn = f[0]
         with open(fn, 'w') as txt:
             txt.write(data)
-        # stat_info = os.stat(fn)
         access_time = os.path.getatime(fn)
         os.utime(fn, (access_time, f[1]))
     finally:
@@ -117,8 +114,7 @@ def p2p_in_thread(conn, addr):
 
     while True:
         try:
-            # unpickle_data = conn.recv(809600000)    # wait for receive file list from peer
-            # data = pickle.loads(unpickle_data)
+            # waiting for receive file list from peer
             data = conn.recv()
             # print('/> Received list of file from peer ', addr)
             peer_files = data
@@ -131,12 +127,10 @@ def p2p_in_thread(conn, addr):
             my_need_update_files, p_need_update_files = compare_with(peer_files)
 
             # send request list of files need update to peer
-            # conn.send(pickle.dumps([my_need_update_files, p_need_update_files]))
             conn.send([my_need_update_files, p_need_update_files])
 
             if my_need_update_files:
                 for my_fn in my_need_update_files:
-                    # d = pickle.loads(conn.recv(809600000))
                     d = conn.recv()
                     # print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
                     update_file(my_fn, d)  # improve performance by thread later
@@ -146,7 +140,6 @@ def p2p_in_thread(conn, addr):
                 for fn in p_need_update_files:
                         with open(os.path.join(path, fn[0])) as txt:
                             d = txt.read()
-                            # conn.send(pickle.dumps(d))
                             conn.send(d)
                             # print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
                             confirm = conn.recv()
@@ -162,7 +155,6 @@ def p2p_in_thread(conn, addr):
 
 
 def listener_thread():
-    # listener_socket.listen(number_of_peers)
     while True:
         c = listener_socket.accept()
         print('Got connection')
@@ -178,10 +170,10 @@ def request_thread():
         load_files()
         # print('> Load file done!')
 
-        # request_socket.sendall(pickle.dumps(my_files))  # send to peer list of file and last modified
+        # send to peer list of file and last modified
         request_socket.send(my_files)
         try:
-            # data = pickle.loads(request_socket.recv(809600000))  # [need_update_files, p_need_upd_files]
+            # [need_update_files, p_need_upd_files]
             data = request_socket.recv()
             my_need_update_files = data[1]
             p_need_update_files = data[0]
@@ -195,7 +187,6 @@ def request_thread():
                 for file in p_need_update_files:
                         with open(os.path.join(path, file[0])) as txt:
                             data = txt.read()
-                            # request_socket.sendall(pickle.dumps(data))
                             request_socket.send(data)
                             # print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getpeername()))
                             confirm = request_socket.recv()
@@ -204,7 +195,6 @@ def request_thread():
 
             if my_need_update_files:
                 for fn in my_need_update_files:
-                    # d = pickle.loads(request_socket.recv(809600000))
                     d = request_socket.recv()
                     # print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getpeername()))
                     update_file(fn, d)
@@ -238,7 +228,6 @@ def get_user_input():
         print('Claim your port to listen: ', ports)
         my_port = eval(input('Your choice: '))
         try:
-            # listener_socket.bind((host, my_port))
             listener_socket = Listener((host, my_port))
             print('Set up listener successfully!')
             break
@@ -260,7 +249,6 @@ def get_user_input():
             # assume inputs are valid
             try:
                 socket.inet_aton(target_host)
-                # request_socket.connect((target_host, target_port))
                 request_socket = Client((target_host, target_port))
                 message = request_socket.recv()  # thank you for connecting
                 print(message)
