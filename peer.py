@@ -58,8 +58,8 @@ def load_files():
 
     for fn in file_names:
         f = os.path.join(path, fn)
-        stat_info = os.stat(f)
-        last_modified = round(stat_info.st_mtime, 0)  # os.path.getmtime(fn)
+        # stat_info = os.stat(f)
+        last_modified = round(os.path.getmtime(f), 0)  # os.path.getmtime(fn)
         my_files.append([fn, last_modified])
 
 
@@ -99,8 +99,9 @@ def update_file(f, data):
         # fn = f[0]
         with open(fn, 'w') as txt:
             txt.write(data)
-        stat_info = os.stat(fn)
-        os.utime(fn, (round(stat_info.st_atime, 0), f[1]))
+        # stat_info = os.stat(fn)
+        access_time = os.path.getatime(fn)
+        os.utime(fn, (access_time, f[1]))
     finally:
         lock.release()
 
@@ -115,6 +116,7 @@ def p2p_in_thread(conn, addr):
     while True:
         try:
             data = pickle.loads(conn.recv(8096))    # wait for receive file list from peer
+            print('/> Received list of file from peer ', addr)
             if data[0] == 'EXIT':
                 break
             elif data[0] == 'GET':
@@ -149,11 +151,11 @@ def p2p_in_thread(conn, addr):
                                 confirm = conn.recv(1024)
                                 print(confirm.decode())
                                 del d
-        except EOFError or OSError as err:
+        except EOFError as err:
             print(err)
             break
-        except TimeoutError:
-            print('/!\ Connection disconnected')
+        except OSError as err:
+            print('/!\ Connection disconnected with ', err)
             break
     conn.close()
 
@@ -203,14 +205,15 @@ def request_thread():
                     update_file(fn, d)
                     request_socket.send(bytes('DONE', 'utf-8'))
             time.sleep(5)
-        except EOFError or OSError as err:
+        except EOFError as err:
             print(err)
             break
-        except TimeoutError:
-            print('/!\ Connection disconnected')
+        except OSError as err:
+            print('/!\ Connection disconnected with {}'.format(err))
             break
-        except TypeError:
-            continue
+        except ConnectionResetError as err:
+            print(err)
+            break
     request_socket.close()
 
 

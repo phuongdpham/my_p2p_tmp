@@ -3,8 +3,7 @@ import time
 import glob
 
 homedir = os.path.expanduser('~')
-path = homedir + '/test/acbc'
-file = 'build.txt'
+path = homedir + '/test/'
 
 # files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]  # and not f.startswith('.')]
 
@@ -16,7 +15,16 @@ if not os.path.exists(path):
 else:
     print('exists')
 
+file = 'build.txt'
+
 os.chdir(path)
+
+with open(file, 'w') as txt:
+    txt.write('abc')
+lm = os.path.getatime(file)
+os.utime(file, (lm, round(lm)))
+
+print(os.path.getmtime(file))
 
 # Showing stat information of file
 
