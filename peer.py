@@ -145,7 +145,7 @@ def p2p_in_thread(conn, addr):
                             conn.send(pickle.dumps(d))
                             # print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
                             confirm = conn.recv(1024)
-                            print(confirm.decode())
+                            # print(confirm.decode())
                             del d
         except EOFError as err:
             print(err)
@@ -173,7 +173,7 @@ def request_thread():
         load_files()
         # print('> Load file done!')
 
-        request_socket.send(pickle.dumps(my_files))  # send to peer list of file and last modified
+        request_socket.sendall(pickle.dumps(my_files))  # send to peer list of file and last modified
         try:
             data = pickle.loads(request_socket.recv(809600000))  # [need_update_files, p_need_upd_files]
             my_need_update_files = data[1]
@@ -188,10 +188,10 @@ def request_thread():
                 for file in p_need_update_files:
                         with open(os.path.join(path, file[0])) as txt:
                             data = txt.read()
-                            request_socket.send(pickle.dumps(data))
+                            request_socket.sendall(pickle.dumps(data))
                             # print('> Sent data file "{}" to peer {}.'.format(file[0], request_socket.getpeername()))
                             confirm = request_socket.recv(1024)
-                            print(confirm.decode())
+                            # print(confirm.decode())
                             del data
 
             if my_need_update_files:

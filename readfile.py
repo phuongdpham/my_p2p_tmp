@@ -6,7 +6,7 @@ import glob
 homedir = os.path.expanduser('~')
 path = homedir + '/test/'
 
-# files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]  # and not f.startswith('.')]
+files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]  # and not f.startswith('.')]
 
 # os.utime(file, (1481481815.7199235, 1481481815.7199235))
 
@@ -20,15 +20,11 @@ file = 'build.txt'
 
 os.chdir(path)
 
-with open(file, 'wb') as txt:
-    txt.write(pickle.dumps('abc'))
-lm = os.path.getatime(file)
-os.utime(file, (lm, round(lm)))
+data = pickle.dumps(files, protocol=3)
+d = pickle.loads(data)
 
-print(os.path.getmtime(file))
+print(files.__sizeof__())
+# print(d)
 
-with open(file, 'rb') as reader:
-    print(pickle.loads(reader.read()))
-
-# Showing stat information of file
+print(files is d, files == d)
 

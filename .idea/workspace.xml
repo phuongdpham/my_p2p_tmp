@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7bb32329-2523-4bc5-990f-96694b3f7efa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peer.py" afterPath="$PROJECT_DIR$/peer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readfile.py" afterPath="$PROJECT_DIR$/readfile.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,9 +16,9 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/demo_socket$ip.coverage" NAME="ip Coverage Results" MODIFIED="1481527565188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/demo_socket$demo_thread.coverage" NAME="demo_thread Coverage Results" MODIFIED="1481465982002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/demo_socket$readfile.coverage" NAME="readfile Coverage Results" MODIFIED="1481559548806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/demo_socket$readfile.coverage" NAME="readfile Coverage Results" MODIFIED="1481567851392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/demo_socket$server.coverage" NAME="server Coverage Results" MODIFIED="1481546832785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/demo_socket$peer.coverage" NAME="peer Coverage Results" MODIFIED="1481565602275" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/demo_socket$peer.coverage" NAME="peer Coverage Results" MODIFIED="1481565957834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/demo_socket$client.coverage" NAME="client Coverage Results" MODIFIED="1481546835069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -36,15 +38,15 @@
       <file leaf-file-name="peer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/peer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="137" column="80" lean-forward="true" selection-start-line="137" selection-start-column="80" selection-end-line="137" selection-end-column="80" />
+            <state relative-caret-position="300">
+              <caret line="198" column="66" lean-forward="false" selection-start-line="198" selection-start-column="57" selection-end-line="198" selection-end-column="66" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#1736#2285#0" expanded="false" />
                 <element signature="e#1992#2098#0" expanded="false" />
                 <element signature="e#2131#2240#0" expanded="false" />
-                <element signature="e#4521#4784#0" expanded="false" />
-                <element signature="e#4585#4784#0" expanded="false" />
+                <element signature="e#4523#4786#0" expanded="false" />
+                <element signature="e#4587#4786#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -53,11 +55,21 @@
       <file leaf-file-name="readfile.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state relative-caret-position="226">
+              <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pickle.py" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/lib/python3.5/pickle.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="1542" column="24" lean-forward="false" selection-start-line="1542" selection-start-column="16" selection-end-line="1542" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -107,8 +119,8 @@
         <option value="$PROJECT_DIR$/ip.py" />
         <option value="$PROJECT_DIR$/server.py" />
         <option value="$PROJECT_DIR$/client.py" />
-        <option value="$PROJECT_DIR$/readfile.py" />
         <option value="$PROJECT_DIR$/peer.py" />
+        <option value="$PROJECT_DIR$/readfile.py" />
       </list>
     </option>
   </component>
@@ -163,7 +175,7 @@
     <property name="js.eslint.eslintPackage" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.peer">
+  <component name="RunManager" selected="Python.readfile">
     <configuration default="false" name="server" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -477,8 +489,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.peer" />
-        <item index="1" class="java.lang.String" itemvalue="Python.readfile" />
+        <item index="0" class="java.lang.String" itemvalue="Python.readfile" />
+        <item index="1" class="java.lang.String" itemvalue="Python.peer" />
         <item index="2" class="java.lang.String" itemvalue="Python.client" />
         <item index="3" class="java.lang.String" itemvalue="Python.server" />
         <item index="4" class="java.lang.String" itemvalue="Python.ip" />
@@ -545,7 +557,21 @@
       <option name="project" value="LOCAL" />
       <updated>1481565712725</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="hhm">
+      <created>1481565723116</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1481565723116</updated>
+    </task>
+    <task id="LOCAL-00009" summary="hhm">
+      <created>1481565937974</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1481565937974</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -559,16 +585,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="20" width="1160" height="700" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17953321" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931036" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32874355" sideWeight="0.5030769" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32874355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32931036" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931036" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32874355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.4969231" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3275862" sideWeight="0.4969231" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32874355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -647,8 +673,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -672,8 +698,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -701,8 +727,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -740,8 +766,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -779,8 +805,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -818,8 +844,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -850,8 +876,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -882,8 +908,8 @@
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1020,14 +1046,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python3.5/pickle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="396" column="24" lean-forward="true" selection-start-line="396" selection-start-column="24" selection-end-line="396" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-1247971764/_socket.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -1068,10 +1086,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/lib/python3.5/pickle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="1542" column="24" lean-forward="false" selection-start-line="1542" selection-start-column="16" selection-end-line="1542" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/readfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state relative-caret-position="226">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -1080,15 +1106,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/peer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="137" column="80" lean-forward="true" selection-start-line="137" selection-start-column="80" selection-end-line="137" selection-end-column="80" />
+        <state relative-caret-position="300">
+          <caret line="198" column="66" lean-forward="false" selection-start-line="198" selection-start-column="57" selection-end-line="198" selection-end-column="66" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#1736#2285#0" expanded="false" />
             <element signature="e#1992#2098#0" expanded="false" />
             <element signature="e#2131#2240#0" expanded="false" />
-            <element signature="e#4521#4784#0" expanded="false" />
-            <element signature="e#4585#4784#0" expanded="false" />
+            <element signature="e#4523#4786#0" expanded="false" />
+            <element signature="e#4587#4786#0" expanded="false" />
           </folding>
         </state>
       </provider>
