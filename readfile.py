@@ -3,7 +3,7 @@ import time
 import glob
 
 homedir = os.path.expanduser('~')
-path = homedir + '/test/'
+path = homedir + '/test/acbc'
 file = 'build.txt'
 
 # files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]  # and not f.startswith('.')]
@@ -19,10 +19,4 @@ else:
 os.chdir(path)
 
 # Showing stat information of file
-stat_info = os.stat(file)
 
-with open(file, errors='ignore') as txt:
-    data = txt.read()
-    print(data)
-
-os.utime(file, (stat_info.st_atime_ns, stat_info.st_mtime_ns))

@@ -39,7 +39,7 @@ if not os.path.exists(path):
 else:
     print('Exists {}'.format(path))
 
-os.chdir(path)
+# os.chdir(path)
 
 my_files = []  # [[filename1, last_modified1], [filename2, last_modified2],...]
 number_of_peers = 1  # number of other machine in network
@@ -57,8 +57,8 @@ def load_files():
     file_names = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and not f.startswith('.')]
 
     for fn in file_names:
-        # f = os.path.join(path, fn)
-        stat_info = os.stat(fn)
+        f = os.path.join(path, fn)
+        stat_info = os.stat(f)
         last_modified = round(stat_info.st_mtime, 0)  # os.path.getmtime(fn)
         my_files.append([fn, last_modified])
 
@@ -95,8 +95,8 @@ def compare_with(peer_files):
 def update_file(f, data):
     lock.acquire()
     try:
-        # fn = os.path.join(path, f[0])
-        fn = f[0]
+        fn = os.path.join(path, f[0])
+        # fn = f[0]
         with open(fn, 'w') as txt:
             txt.write(data)
         stat_info = os.stat(fn)
