@@ -118,12 +118,12 @@ def p2p_in_thread(conn, addr):
         try:
             unpickle_data = conn.recv(809600000)    # wait for receive file list from peer
             data = pickle.loads(unpickle_data)
-            print('/> Received list of file from peer ', addr)
+            # print('/> Received list of file from peer ', addr)
             peer_files = data
             load_files()
 
-            print(peer_files)
-            print(my_files)
+            # print(peer_files)
+            # print(my_files)
 
             # get list of files need update from peer, and to peer
             my_need_update_files, p_need_update_files = compare_with(peer_files)
@@ -134,7 +134,7 @@ def p2p_in_thread(conn, addr):
             if my_need_update_files:
                 for my_fn in my_need_update_files:
                     d = pickle.loads(conn.recv(809600000))
-                    print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
+                    # print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
                     update_file(my_fn, d)  # improve performance by thread later
                     conn.send(bytes('DONE', 'utf-8'))
 
@@ -143,7 +143,7 @@ def p2p_in_thread(conn, addr):
                         with open(os.path.join(path, fn[0])) as txt:
                             d = txt.read()
                             conn.send(pickle.dumps(d))
-                            print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
+                            # print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
                             confirm = conn.recv(1024)
                             print(confirm.decode())
                             del d
