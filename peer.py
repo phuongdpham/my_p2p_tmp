@@ -116,7 +116,8 @@ def p2p_in_thread(conn, addr):
 
     while True:
         try:
-            data = pickle.loads(conn.recv(80960))    # wait for receive file list from peer
+            unpickle_data = conn.recv(80960)    # wait for receive file list from peer
+            data = pickle.loads(unpickle_data)
             print('/> Received list of file from peer ', addr)
             if data[0] == 'EXIT':
                 break

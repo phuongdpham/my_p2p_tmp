@@ -1,4 +1,5 @@
 import os
+import pickle
 import time
 import glob
 
@@ -19,12 +20,15 @@ file = 'build.txt'
 
 os.chdir(path)
 
-with open(file, 'w') as txt:
-    txt.write('abc')
+with open(file, 'wb') as txt:
+    txt.write(pickle.dumps('abc'))
 lm = os.path.getatime(file)
 os.utime(file, (lm, round(lm)))
 
 print(os.path.getmtime(file))
+
+with open(file, 'rb') as reader:
+    print(pickle.loads(reader.read()))
 
 # Showing stat information of file
 
