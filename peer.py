@@ -119,40 +119,34 @@ def p2p_in_thread(conn, addr):
             unpickle_data = conn.recv(80960)    # wait for receive file list from peer
             data = pickle.loads(unpickle_data)
             print('/> Received list of file from peer ', addr)
-            if data[0] == 'EXIT':
-                break
-            elif data[0] == 'GET':
-                load_files()
-                conn.send(pickle.dumps(make_message('POST', my_files)))
-            elif data[0] == 'POST':
-                peer_files = data[1]
-                load_files()
+            peer_files = data[1]
+            load_files()
 
-                print(peer_files)
-                print(my_files)
+            print(peer_files)
+            print(my_files)
 
-                # get list of files need update from peer, and to peer
-                my_need_update_files, p_need_update_files = compare_with(peer_files)
+            # get list of files need update from peer, and to peer
+            my_need_update_files, p_need_update_files = compare_with(peer_files)
 
-                # send request list of files need update to peer
-                conn.send(pickle.dumps(make_message('POST', [my_need_update_files, p_need_update_files])))
+            # send request list of files need update to peer
+            conn.send(pickle.dumps([my_need_update_files, p_need_update_files]))
 
-                if my_need_update_files:
-                    for my_fn in my_need_update_files:
-                        d = pickle.loads(conn.recv(80960))
-                        print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
-                        update_file(my_fn, d)  # improve performance by thread later
-                        conn.send(bytes('DONE', 'utf-8'))
+            if my_need_update_files:
+                for my_fn in my_need_update_files:
+                    d = pickle.loads(conn.recv(80960))
+                    print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
+                    update_file(my_fn, d)  # improve performance by thread later
+                    conn.send(bytes('DONE', 'utf-8'))
 
-                if p_need_update_files:
-                    for fn in p_need_update_files:
-                            with open(os.path.join(path, fn[0])) as txt:
-                                d = txt.read()
-                                conn.send(pickle.dumps(d))
-                                print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
-                                confirm = conn.recv(1024)
-                                print(confirm.decode())
-                                del d
+            if p_need_update_files:
+                for fn in p_need_update_files:
+                        with open(os.path.join(path, fn[0])) as txt:
+                            d = txt.read()
+                            conn.send(pickle.dumps(d))
+                            print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
+                            confirm = conn.recv(1024)
+                            print(confirm.decode())
+                            del d
         except EOFError as err:
             print(err)
             break
@@ -179,11 +173,11 @@ def request_thread():
         load_files()
         print('> Load file done!')
 
-        request_socket.send(pickle.dumps(make_message('POST', my_files)))  # send to peer list of file and last modified
+        request_socket.send(pickle.dumps(my_files))  # send to peer list of file and last modified
         try:
-            data = pickle.loads(request_socket.recv(80960))  # ['POST', need_update_files, p_need_upd_files]
-            my_need_update_files = data[1][1]
-            p_need_update_files = data[1][0]
+            data = pickle.loads(request_socket.recv(80960))  # [need_update_files, p_need_upd_files]
+            my_need_update_files = data[1]
+            p_need_update_files = data[0]
 
             if not my_need_update_files and not p_need_update_files:
                 print('> Nothing to do, wait for the next change in folder...')
