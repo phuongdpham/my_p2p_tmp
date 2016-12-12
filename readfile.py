@@ -3,9 +3,8 @@ import time
 import glob
 
 homedir = os.path.expanduser('~')
-path = homedir + '/test/abc/'
-file = path + 'avar.jpg'
-file1 = path + 'abc.txt'
+path = homedir + '/test/'
+file = 'file.txt'
 
 # files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]  # and not f.startswith('.')]
 
@@ -16,3 +15,13 @@ if not os.path.exists(path):
     os.makedirs(path)
 else:
     print('exists')
+
+os.chdir(path)
+
+# Showing stat information of file
+stat_info = os.stat(file)
+print (stat_info)
+
+with open(file, errors='ignore') as txt:
+    data = txt.read()
+    print(data)
