@@ -59,7 +59,7 @@ def load_files():
     for fn in file_names:
         # f = os.path.join(path, fn)
         stat_info = os.stat(fn)
-        last_modified = stat_info.st_mtime_ns  # os.path.getmtime(fn)
+        last_modified = round(stat_info.st_mtime, 0)  # os.path.getmtime(fn)
         my_files.append([fn, last_modified])
 
 
@@ -97,10 +97,10 @@ def update_file(f, data):
     try:
         # fn = os.path.join(path, f[0])
         fn = f[0]
-        stat_info = os.stat(fn)
         with open(fn, 'w') as txt:
             txt.write(data)
-        os.utime(fn, (stat_info.st_atime_ns, stat_info.st_mtime_ns))
+        stat_info = os.stat(fn)
+        os.utime(fn, (round(stat_info.st_atime, 0), f[1]))
     finally:
         lock.release()
 
@@ -151,10 +151,11 @@ def p2p_in_thread(conn, addr):
                                 del d
         except EOFError or OSError as err:
             print(err)
+            break
         except TimeoutError:
             print('/!\ Connection disconnected')
-            conn.close()
             break
+    conn.close()
 
 
 def listener_thread():
@@ -207,10 +208,10 @@ def request_thread():
             break
         except TimeoutError:
             print('/!\ Connection disconnected')
-            request_socket.close()
             break
         except TypeError:
             continue
+    request_socket.close()
 
 
 def get_user_input():
