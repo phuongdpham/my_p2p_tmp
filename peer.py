@@ -59,7 +59,7 @@ def load_files():
     for fn in file_names:
         # f = os.path.join(path, fn)
         stat_info = os.stat(fn)
-        last_modified = stat_info.st_mtime  # os.path.getmtime(fn)
+        last_modified = stat_info.st_mtime_ns  # os.path.getmtime(fn)
         my_files.append([fn, last_modified])
 
 
@@ -100,7 +100,7 @@ def update_file(f, data):
         stat_info = os.stat(fn)
         with open(fn, 'w') as txt:
             txt.write(data)
-        os.utime(fn, (stat_info.st_atime, stat_info.st_mtime))
+        os.utime(fn, (stat_info.st_atime_ns, stat_info.st_mtime_ns))
     finally:
         lock.release()
 
