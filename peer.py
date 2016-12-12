@@ -144,15 +144,14 @@ def p2p_in_thread(conn, addr):
                     for fn in p_need_update_files:
                             with open(os.path.join(path, fn[0])) as txt:
                                 d = txt.read()
-                                try:
-                                    conn.send(pickle.dumps(d))
-                                except BrokenPipeError as err:
-                                    print(err)
+                                conn.send(pickle.dumps(d))
                                 print('/> Sent file "{}" to peer {}.'.format(fn[0], addr))
                                 confirm = conn.recv(1024)
                                 print(confirm.decode())
                                 del d
-        except EOFError or OSError:
+        except EOFError or OSError as err:
+            print(err)
+        except TimeoutError:
             print('/!\ Connection disconnected')
             conn.close()
             break
@@ -203,13 +202,15 @@ def request_thread():
                     update_file(fn, d)
                     request_socket.send(bytes('DONE', 'utf-8'))
             time.sleep(5)
-        except EOFError or OSError:
+        except EOFError or OSError as err:
+            print(err)
+            break
+        except TimeoutError:
             print('/!\ Connection disconnected')
             request_socket.close()
             break
         except TypeError:
-            request_socket.close()
-            break
+            continue
 
 
 def get_user_input():

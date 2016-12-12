@@ -20,7 +20,6 @@ os.chdir(path)
 
 # Showing stat information of file
 stat_info = os.stat(file)
-print(stat_info.st_mtime_ns)
 
 with open(file, errors='ignore') as txt:
     data = txt.read()

@@ -10,16 +10,22 @@ s.bind((host, port))
 
 s.listen(5)
 
+i = 0
+
 
 def client_thread(conn, addr):
-    time.sleep(3)
-    conn.send(bytes('Thank you for connecting', 'utf-8'))
+    global i
+
     print('Got connection from ', addr)
 
     while True:
         try:
-            data = pickle.loads(conn.recv(1024))
-            print(data)
+            time.sleep(3)
+            conn.send(bytes('Thank you for connecting', 'utf-8'))
+            i += 1
+            if i == 3:
+                conn.close()
+                break
         except EOFError:
             break
 

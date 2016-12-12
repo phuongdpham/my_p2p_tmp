@@ -12,10 +12,14 @@ while True:
     print('waiting...')
     try:
         data = sock.recv(1024)
+
         print(data.decode())
         print(sock.getpeername(), sock.getsockname()[1])
     except OSError or EOFError:
         print('Disconnected')
+        break
+    except TimeoutError as err:
+        print(err)
         break
 
 sock.close()
