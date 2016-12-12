@@ -53,6 +53,7 @@ request_port = None
 
 def load_files():
     global my_files
+    del my_files
     my_files = []
     file_names = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and not f.startswith('.')]
 
@@ -115,7 +116,7 @@ def p2p_in_thread(conn, addr):
 
     while True:
         try:
-            data = pickle.loads(conn.recv(8096))    # wait for receive file list from peer
+            data = pickle.loads(conn.recv(80960))    # wait for receive file list from peer
             print('/> Received list of file from peer ', addr)
             if data[0] == 'EXIT':
                 break
@@ -137,7 +138,7 @@ def p2p_in_thread(conn, addr):
 
                 if my_need_update_files:
                     for my_fn in my_need_update_files:
-                        d = pickle.loads(conn.recv(8096))
+                        d = pickle.loads(conn.recv(80960))
                         print('/> Received data file "{}" from peer {}.'.format(my_fn[0], addr))
                         update_file(my_fn, d)  # improve performance by thread later
                         conn.send(bytes('DONE', 'utf-8'))
@@ -179,7 +180,7 @@ def request_thread():
 
         request_socket.send(pickle.dumps(make_message('POST', my_files)))  # send to peer list of file and last modified
         try:
-            data = pickle.loads(request_socket.recv(8096))  # ['POST', need_update_files, p_need_upd_files]
+            data = pickle.loads(request_socket.recv(80960))  # ['POST', need_update_files, p_need_upd_files]
             my_need_update_files = data[1][1]
             p_need_update_files = data[1][0]
 
@@ -200,7 +201,7 @@ def request_thread():
 
             if my_need_update_files:
                 for fn in my_need_update_files:
-                    d = pickle.loads(request_socket.recv(8096))
+                    d = pickle.loads(request_socket.recv(80960))
                     print('> Received data file "{}" from peer {}'.format(fn[0], request_socket.getpeername()))
                     update_file(fn, d)
                     request_socket.send(bytes('DONE', 'utf-8'))
