@@ -145,8 +145,8 @@ def p2p_in_thread(conn, addr):
                             confirm = conn.recv()
                             # print(confirm.decode())
                             del d
-        except EOFError as err:
-            print(err)
+        except EOFError:
+            print('~ Connection disconnected by user')
             break
         except OSError as err:
             print('/!\ Connection disconnected with ', err)
@@ -156,6 +156,7 @@ def p2p_in_thread(conn, addr):
 
 def listener_thread():
     while True:
+        print("Listening....")
         c = listener_socket.accept()
         print('Got connection')
         t_c = threading.Thread(target=p2p_in_thread, args=(c, c))
@@ -200,14 +201,14 @@ def request_thread():
                     update_file(fn, d)
                     request_socket.send('DONE')
             time.sleep(5)
-        except EOFError as err:
-            print(err)
+        except EOFError:
+            print('~ Connection disconnected by user!')
             break
         except OSError as err:
             print('/!\ Connection disconnected with {}'.format(err))
             break
-        except ConnectionResetError as err:
-            print(err)
+        except ConnectionResetError:
+            print('~ Connection reset by error')
             break
     request_socket.close()
 
