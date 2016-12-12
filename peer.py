@@ -119,7 +119,7 @@ def p2p_in_thread(conn, addr):
             unpickle_data = conn.recv(80960)    # wait for receive file list from peer
             data = pickle.loads(unpickle_data)
             print('/> Received list of file from peer ', addr)
-            peer_files = data[1]
+            peer_files = data
             load_files()
 
             print(peer_files)
