@@ -58,7 +58,7 @@ def load_files():
 
     for fn in file_names:
         # f = os.path.join(path, fn)
-        stat_info = os.stat(fn)
+        stat_info = os.stat(fn[0])
         last_modified = stat_info.st_mtime_ns  # os.path.getmtime(fn)
         my_files.append([fn, last_modified])
 
